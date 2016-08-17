@@ -222,7 +222,7 @@ There's no reference here directly to the database, but if we dig a little deepe
 
 ```
 def self.raw_tasks
-  database.execute("SELECT * FROM tasks")
+  database.execute("SELECT * FROM tasks;")
 end
 ```
 
