@@ -184,12 +184,12 @@ database.execute("STRING OF SQL HERE;")
 
 Each of the following broken methods will need to be updated to work using the new syntax above:
 
-find
-all
-create
-delete
-delete_all
-update
+* find
+* all
+* create
+* delete
+* delete_all
+* update
 
 ## Homework/Worktime
 
@@ -200,7 +200,7 @@ Transform Skill Inventory or Robot World to store your data in a SQLite3 databas
 * Code [before](https://github.com/turingschool-examples/task-manager/tree/feature-testing-implemented-1605) transformation (storing data w/ YAML)
 * Code [after](https://github.com/turingschool-examples/task-manager/tree/yaml-to-sqlite3-1605) transformation (storing data w/ SQLite3)
 
-[ORM Ruby Introduction](https://www.sitepoint.com/orm-ruby-introduction/)
-[ActiveRecord Documentation](http://guides.rubyonrails.org/active_record_basics.html)
-[DataMapper Documentation](http://datamapper.org/)
-[Sequel Documentation](http://sequel.jeremyevans.net/)
+* [ORM Ruby Introduction](https://www.sitepoint.com/orm-ruby-introduction/)
+* [ActiveRecord Documentation](http://guides.rubyonrails.org/active_record_basics.html)
+* [DataMapper Documentation](http://datamapper.org/)
+* [Sequel Documentation](http://sequel.jeremyevans.net/)
