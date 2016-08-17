@@ -179,7 +179,7 @@ Let's go ahead and add a similar change to our test_helper. Replace the task_man
 def task_manager
   database = SQLite3::Database.new('db/task_manager_test.db')
   database.results_as_hash = true
-  @task_manager ||= TaskManager.new(database)
+  TaskManager.new(database)
 end
 ```
 
