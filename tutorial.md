@@ -197,8 +197,12 @@ Transform Skill Inventory or Robot World to store your data in a SQLite3 databas
 
 ## Resources
 
+### Code
+
 * Code [before](https://github.com/turingschool-examples/task-manager/tree/feature-testing-implemented-1605) transformation (storing data w/ YAML)
 * Code [after](https://github.com/turingschool-examples/task-manager/tree/yaml-to-sqlite3-1605) transformation (storing data w/ SQLite3)
+
+### Other Sites
 
 * [ORM Ruby Introduction](https://www.sitepoint.com/orm-ruby-introduction/)
 * [ActiveRecord Documentation](http://guides.rubyonrails.org/active_record_basics.html)
