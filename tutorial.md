@@ -39,7 +39,16 @@ Migrations allow you to evolve your database structure over time. Each migration
 
 Once we start using an existing ORM (instead of creating our own), we'll need to be particular about where our migrations go and be mindful of how we name them and the content. For this tutorial, to the degree possible, we're going to work to replicate some of the naming conventions that we expect you to see in the future.
 
-Let's start with a migration to create the database and an initial table.
+Let's start with a migration to create the database and an initial table. Create a directory for your migrations and then a file to hold your first migration:
+
+```
+$ mkdir db/migrations
+$ touch db/migrations/001_create_tasks.rb
+```
+
+The 001 in the file name above helps us keep our migrations in order. If we create a table in one migration and then later in our project decide that we need to add a column to that table, the file names will keep us from trying to add a column to a table that doesn't yet exist.
+
+Go ahead and add the code below to your newly created migration.
 
 ```
 # db/migrations/001_create_tasks.rb
@@ -78,21 +87,31 @@ We can open our database using the sqlite3 gem with the following command:
 $ sqlite3 db/task_manager_development.db
 ```
 
-That will bring us into the command line shell for SQLite3. Let's check to see if we created the table we think we created:
+That will bring us into the command line shell for SQLite3. Let's see if we've successfully created the table we wanted to create. Run the following line of code in the shell:
 
 ```
-sqlite> SELECT * FROM tasks
+sqlite> .schema
 ```
 
-Did you get an error that tells you that a tasks table doesn't exist? No? Congrats! It exists.
+You should see a description of the table that you just created in your database. Ideally there is some reference to an id, title, and description included in the response you see. That should give you some comfort that your table has been created with the proper headers.
+
+We can also use some SQL to see what's in the database. Go ahead and use the following code to select all rows from your tasks table.
+
+```
+sqlite> SELECT * FROM tasks;
+```
+
+That was a little bit anticlimactic. I expect that you didn't see any output. Take solace in the fact that if you didn't have a table in your database you would've seen an error.
 
 To exit use `Ctrl-\`
 
-We could also add data to our table from this interface, but that's not exactly what web development is all about. Plus it doesn't feel very efficient...
+We could add some data to our table from this interface, but that's not exactly what web development is all about. Plus it doesn't feel very efficient...
 
 ### Seed Data
 
 For development purposes, sometimes you'll see what's called a seed file. This file adds data to your database so that you have existing data you can view/manipulate without having to enter data in your browser. Let's go ahead and create a seed file to populate our new database.
+
+Go ahead and create a file `db/seeds.rb` and enter the following code into it.
 
 ```
 # db/seeds.rb
@@ -133,6 +152,8 @@ Now we've seen that we've successfully created a database. We know that we can a
 
 First, in the controller, let's go ahead and replace our current definition of task_manager with a new version that replaces the YAML references with references to our new SQL database using the code below.
 
+In your `app/task_manager_app.rb` file:
+
 ```
 # app/task_manager_app.rb
 def task_manager
@@ -150,7 +171,7 @@ For more information on the #results_as_hash method take a look at the documenta
 
 ### Updating our database connection in tests:
 
-Let's go ahead and add a similar change to our test_helper. Replace the task_manager definition in the test_helper.rb with the code below.
+Let's go ahead and add a similar change to our test_helper. Replace the task_manager definition in the `test/test_helper.rb` with the code below.
 
 ```
 # test/test_helper.rb
@@ -168,7 +189,7 @@ Finally, let's go ahead and update our TaskManager model to use the SQL database
 
 ### Accessing our database in our TaskManager model
 
-Previously, we accessed our data in our YAML::Store file like so:
+Previously, in our `app/models/task_manager.rb` we accessed our data in our YAML::Store file like so:
 
 ```
 database.transaction do
@@ -182,14 +203,32 @@ Now, we'll access our data in our SQLite3 database with code similar to the foll
 database.execute("STRING OF SQL HERE;")
 ```
 
-Each of the following broken methods will need to be updated to work using the new syntax above:
+Each of the following broken methods (or the helper methods that make them work) will need to be updated to work using the new syntax above:
 
+* create
 * find
 * all
-* create
+* update
 * delete
 * delete_all
-* update
+
+Let's do the first one together. In your #all method you currently have the following:
+
+```
+raw_tasks.map { |data| Task.new(data) }
+```
+
+There's no reference here directly to the database, but if we dig a little deeper into that #raw_tasks method that's where the database magic is happening. Let's go ahead and change that #raw_tasks method to use our new SQL database. We want to return all the tasks just in a hash, so...
+
+```
+def self.raw_tasks
+  database.execute("SELECT * FROM tasks")
+end
+```
+
+That code should select all rows and all columns from our tasks table and return it to us as a hash, which is what our #all method expects.
+
+Work on the remaining methods to see if you can get them to work (feel free to discuss with the people around you). We'll meet back up before the end of class to discuss any issues you might have found. If you finish updating all the methods before we come back together, go ahead and start working on your homework for this evening.
 
 ## Homework/Worktime
 
