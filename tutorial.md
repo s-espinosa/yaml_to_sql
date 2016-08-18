@@ -221,7 +221,7 @@ raw_tasks.map { |data| Task.new(data) }
 There's no reference here directly to the database, but if we dig a little deeper into that #raw_tasks method that's where the database magic is happening. Let's go ahead and change that #raw_tasks method to use our new SQL database. We want to return all the tasks just in a hash, so...
 
 ```
-def self.raw_tasks
+def raw_tasks
   database.execute("SELECT * FROM tasks;")
 end
 ```
