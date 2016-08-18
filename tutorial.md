@@ -138,7 +138,7 @@ puts "It worked and:"
 p database.execute("SELECT * FROM tasks;")
 ```
 
-Go ahead and run this file with `ruby db/seeds.db`
+Go ahead and run this file with `ruby db/seeds.rb`
 
 You should see the output from the puts and p command at the end of that file showing some items that have been inserted into your database. Since we're actually using an SQL query in that last line we should feel pretty comfortable that everything has been entered into the database correctly. If you're curious, go ahead and run the commands from the end of the previous section to see how the output in the command line interface changes now that you have some data.
 
